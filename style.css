@@ -13,7 +13,7 @@ html {
 .container {
     display: flex;
     min-height: 100vh;
-    background-color: #bec5c5;
+    background-color: #f2f5f5;
     font-family: "Calibri" ;
 }
 
@@ -21,23 +21,64 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-basis: 75%;
-    background-color: #8dd08d;
+    flex-basis: 80%;
+
 
 }
 
-.title {
+.header {
     font-size: 3rem;
     text-transform: uppercase;
 }
 
-.subtitle {
+.subheader {
     font-size: 1.5rem;
 }
 
 .tile-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 2rem;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 21%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.40);
+    margin: 1rem 0;
+    padding: 0.25rem;
+}
+
+.title {
+    display: flex;
+    min-height: 3rem;
+    font-size: 1.5rem;
+    line-height: 100%;
+    align-items: center;
+}
+
+.image {
+    height: 10rem;
+    overflow: hidden;
+    background-color: red;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+}
+
+.ingredients {
+    flex-grow: 1;
+}
+
+.price {
+    font-size: 1.5rem;
+    align-self: center;
 }
 
 .basket {
@@ -46,17 +87,31 @@ html {
     right: 1rem;
     border: solid 1px dimgrey;
     min-height: 20rem;
-    min-width: 15rem;
+    min-width: 17rem;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.shopping-list {
+.basket-list {
     flex-grow: 1;
+    align-self: stretch;
+    list-style: none;
+    padding: 1rem;
 }
 
-.place-order {
+.basket-list li {
+    position: relative;
+    padding-right: 2rem;
+}
+
+.basket-list button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.btn-place-order {
     align-self: normal;
     margin: 0.2rem ;
     padding: 0.5rem 0;
