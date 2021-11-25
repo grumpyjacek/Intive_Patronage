@@ -26,8 +26,7 @@ function createNewTile({id, title, price, image, ingredients}) {
         <div class="image">
             <img src="${image}" alt="${title}">
         </div>
-        <p class="ingredients">${ingredientsList}</p>
-        <hr>
+        <p class="ingredients"><span>Skladniki:</span><br>${ingredientsList}</p>
             <p class="price">${fixedPrice}</p>
             <button type="submit" class="btn-buy-product" data-name="${title}" data-price="${price}">Zamów</button>
     `
@@ -77,7 +76,7 @@ function createBasketUi() {
         const removeButton = document.createElement('button');
         removeButton.dataset.id = singleProductInfo.id;
         removeButton.dataset.name = singleProductInfo.name;
-        removeButton.innerText = 'Usuń';
+        removeButton.innerText = 'x';
 
         removeButton.addEventListener('click', removeProduct);
         newLi.appendChild(removeButton);
@@ -92,7 +91,7 @@ function createBasketUi() {
         placeOrderButton.removeAttribute('disabled');
     } else {
         placeOrderButton.setAttribute('disabled', 'true')
-        totalPrice.innerText = 'Głodny? Zamów naszą pizzę!'
+        totalPrice.innerHTML = `Głodny? <br>Zamów naszą pizzę!`
     }
 }
 
@@ -104,7 +103,6 @@ function addProductToBasket(event) {
 
     if (productsCount > 0) {
         let count = productsCount + 1;
-        console.log('count', count);
        basket.changeCount(name, count);
     } else {
         let count = 1;
@@ -135,3 +133,4 @@ placeOrderButton.addEventListener('click', placeOrder);
         console.log(err);
     }
 })();
+
