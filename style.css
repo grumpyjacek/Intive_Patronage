@@ -1,8 +1,8 @@
 /* style body do zresetowania */
 
 * {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
@@ -11,16 +11,19 @@ html {
 }
 
 .container {
-    font-family: "Roboto", sans-serif ;
+    position: relative;
     display: flex;
+    max-width: 80rem;
     min-height: 100vh;
+    margin: 0 auto;
     padding-top: 1rem;
     background-color: #e9eaea;
-
+    font-family: "Roboto", sans-serif;
 }
 
 .menu {
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
 }
@@ -34,12 +37,18 @@ html {
     font-size: 1.5rem;
 }
 
+object {
+    position: absolute;
+    top: 1rem;
+    right: 8rem;
+}
+
 .tile-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     padding: 1rem;
-    margin-right: 20rem;
+    /*margin-right: 20rem;*/
 }
 
 .tile {
@@ -47,7 +56,7 @@ html {
     flex-direction: column;
     flex-basis: 23%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.40);
-    margin: 1rem 0;
+    margin: 1rem 0 0;
     padding: 1rem;
     border-radius: 4px;
 }
@@ -75,6 +84,7 @@ img {
 
 .ingredients {
     flex-grow: 1;
+    font-size: .9rem;
     padding: .5rem 0;
     border-bottom: solid 1px gray;
 }
@@ -90,16 +100,15 @@ img {
 }
 
 .basket {
-    position: fixed;
+    position: sticky;
     top: 8rem;
-    right: 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.40);
-    min-height: 25rem;
-    max-height: 70vh;
-    width: 19rem;
+    max-height: 65vh;
+    width: 23rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: 1rem;
     padding: .8rem;
     border-radius: 4px;
 }
@@ -107,6 +116,7 @@ img {
 .basket h3 {
     font-size: 1.3rem;
     padding: 0 .5rem .5rem;
+    text-align: center;
     text-transform: uppercase;
 }
 
@@ -126,7 +136,7 @@ img {
 .basket-list li {
     position: relative;
     padding: .5rem 1.5rem .5rem 0;
-    font-size: 1rem;
+    font-size: .9rem;
     border-bottom: solid 1px gray;
 }
 
@@ -136,6 +146,11 @@ button {
     background-color: green;
     border-radius: 4px;
     text-transform: uppercase;
+}
+
+button:disabled {
+    color: black;
+    background-color: #a9a9a9;
 }
 
 .basket-list button {
@@ -156,4 +171,13 @@ button {
     align-self: normal;
 
     padding: 0.5rem 0;
+}
+
+@media (max-width: 1024px){
+    html {
+        font-size: 14px;
+    }
+    .tile {
+        flex-basis: 31%;
+    }
 }
