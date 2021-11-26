@@ -6,8 +6,7 @@ const placeOrderButton = document.querySelector('.btn-place-order');
 async function getData() {
     try {
         const response = await fetch('https://raw.githubusercontent.com/alexsimkovich/patronage/main/api/data.json');
-        const data = await response.json();
-        return data;
+        return response.json();
 
     } catch(err) {
         console.log(err);
@@ -28,7 +27,7 @@ function createNewTile({id, title, price, image, ingredients}) {
         </div>
         <p class="ingredients"><span>Skladniki:</span><br>${ingredientsList}</p>
             <p class="price">${fixedPrice}</p>
-            <button type="submit" class="btn-buy-product" data-name="${title}" data-price="${price}">Zamów</button>
+            <button type="submit" class="btn-buy-product" data-name="${title}" data-price="${price}" data-id="${id}">Zamów</button>
     `
     containerList.appendChild(newTile)
 }
@@ -49,17 +48,9 @@ function setListenerForBuyButtons() {
 }
 
 function removeProduct(event) {
-    const id = Number(event.target.dataset.id);
-    const name = event.target.dataset.name;
-    let productsCount = basket.check(name);
+    const id = event.target.dataset.id;
 
-    if (productsCount > 1) {
-        let count = productsCount - 1;
-        basket.changeCount(name, count);
-    } else {
-        basket.remove(id);
-    }
-
+    basket.remove(id);
     createBasketUi();
 }
 
@@ -96,19 +87,10 @@ function createBasketUi() {
 }
 
 function addProductToBasket(event) {
+    const id = event.target.dataset.id;
     const name = event.target.dataset.name;
     const price = Number(event.target.dataset.price);
-    let selectedProduct;
-    let productsCount = basket.check(name);
-
-    if (productsCount > 0) {
-        let count = productsCount + 1;
-       basket.changeCount(name, count);
-    } else {
-        let count = 1;
-        selectedProduct = new SelectedProduct(name, price, count);
-        basket.add(selectedProduct);
-    }
+    basket.add(id, name, price);
 
     createBasketUi();
 }
