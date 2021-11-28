@@ -33,13 +33,7 @@ class Basket {
     }
 
     getBasketSummary() {
-        return this.items.map(product => {
-            return {
-                id: product.id,
-                name: product.name,
-                text: `${product.count} x ${product.name} - ${product.price.toFixed(2)} zł`,
-            };
-        });
+        return this.items.map(product => product);
     }
 
     remove(id) {

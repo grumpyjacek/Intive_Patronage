@@ -13,10 +13,15 @@ async function getData() {
     }
 }
 
+// Localize prices
+function localizePrice (price) {
+    return price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+}
+
 // Create pizza tiles list
 function createNewTile({id, title, price, image, ingredients}) {
     const ingredientsList = ingredients.join(", ");
-    const fixedPrice = `${price.toFixed(2)} zł`;
+    const fixedPrice = `${localizePrice(price)} zł`;
     const newTile = document.createElement('div');
 
     newTile.className = "tile"
@@ -60,13 +65,13 @@ function createBasketUi() {
 
     const allProducts = basket.getBasketSummary();
     for (const singleProductInfo of allProducts) {
-        const {id, name, text} = singleProductInfo;
+        const {id, name, price, count} = singleProductInfo;
 
         const newLi = document.createElement('li');
-        newLi.innerText = singleProductInfo.text;
+        newLi.innerText = `${count} x ${name} - ${localizePrice(price)} zł`;
         const removeButton = document.createElement('button');
-        removeButton.dataset.id = singleProductInfo.id;
-        removeButton.dataset.name = singleProductInfo.name;
+        removeButton.dataset.id = id;
+        removeButton.dataset.name = name;
         removeButton.innerText = 'x';
 
         removeButton.addEventListener('click', removeProduct);
@@ -76,7 +81,7 @@ function createBasketUi() {
 
     const basketTotalValue = basket.getTotalValue();
     const totalPrice = document.querySelector('.total-price')
-    totalPrice.innerText = `${basketTotalValue.toFixed(2)} zł.`;
+    totalPrice.innerText = `${localizePrice(basketTotalValue)} zł`;
 
     if (basketTotalValue){
         placeOrderButton.removeAttribute('disabled');
