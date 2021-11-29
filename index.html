@@ -9,23 +9,21 @@
     <title>Pizza u Jacka</title>
 </head>
 <body>
-
 <div class="container">
-
-    <div class="menu">
+    <div class="top-bar">
         <h1 class="header">Pizza u Jacka</h1>
         <p class="subheader">Najlepsza pizza w mieście!</p>
         <object data="cook.svg" width="90" height="90"> </object>
+    </div>
+    <div class="main">
         <div class="tile-list"></div>
+        <div class="basket">
+            <h3>Twoje zamówienie:</h3>
+            <ul class="basket-list"></ul>
+            <p class="total-price"></p>
+            <button type="submit" class="btn-place-order">Złóż zamówienie</button>
+        </div>
     </div>
-
-    <div class="basket">
-        <h3>Twoje zamówienie:</h3>
-        <ul class="basket-list"></ul>
-        <p class="total-price"></p>
-        <button type="submit" class="btn-place-order">Złóż zamówienie</button>
-    </div>
-
 </div>
 <script src="scripts/basket.js"></script>
 <script src="scripts/ui.js"></script>
