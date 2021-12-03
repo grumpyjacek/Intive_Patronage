@@ -13,15 +13,22 @@
     <div class="top-bar">
         <h1 class="header">Pizza u Jacka</h1>
         <p class="subheader">Najlepsza pizza w mieście!</p>
-        <object data="cook.svg" width="90" height="90"> </object>
     </div>
     <div class="main">
         <div class="tile-list"></div>
         <div class="basket">
+            <div class="basket-summary">
+                <div class="basket-icon"><img src="assets/basket.svg"></div>
+                <p class="total-price"></p>
+                <button class="view-basket">
+                    <img src="assets/show_more.svg">
+                    <img class = "inactive" src="assets/show_less.svg">
+                </button>
+            </div>
             <h3>Twoje zamówienie:</h3>
             <ul class="basket-list"></ul>
-            <p class="total-price"></p>
             <button type="submit" class="btn-place-order">Złóż zamówienie</button>
+            <button type="submit" class="btn-clear-basket">Wyczyść koszyk</button>
         </div>
     </div>
 </div>

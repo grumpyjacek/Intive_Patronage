@@ -1,6 +1,17 @@
 const containerList = document.querySelector('.tile-list');
 const basketList = document.querySelector('.basket-list');
 const placeOrderButton = document.querySelector('.btn-place-order');
+const clearBasketButton = document.querySelector('.btn-clear-basket')
+const basketSummary = document.querySelector('.basket');
+const handleBasketButton = document.querySelector('.view-basket');
+const basketArrow = document.querySelectorAll('.view-basket img')
+
+function handleViewBasket () {
+    basketSummary.classList.toggle('on')
+    basketArrow.forEach(arrow => arrow.classList.toggle('inactive'))
+}
+
+handleBasketButton.addEventListener('click', handleViewBasket);
 
 // Fetching data.
 async function getData() {
@@ -30,7 +41,7 @@ function createNewTile({id, title, price, image, ingredients}) {
         <div class="image">
             <img src="${image}" alt="${title}">
         </div>
-        <p class="ingredients"><span>Skladniki:</span><br>${ingredientsList}</p>
+        <p class="ingredients"><span>Skladniki:</span> ${ingredientsList}</p>
             <p class="price">${fixedPrice}</p>
             <button type="submit" class="btn-buy-product" data-name="${title}" data-price="${price}" data-id="${id}">Zamów</button>
     `
@@ -85,8 +96,10 @@ function createBasketUi() {
 
     if (basketTotalValue){
         placeOrderButton.removeAttribute('disabled');
+        clearBasketButton.removeAttribute('disabled')
     } else {
         placeOrderButton.setAttribute('disabled', 'true')
+        clearBasketButton.setAttribute('disabled', 'true')
         totalPrice.innerHTML = `Głodny? <br>Zamów naszą pizzę!`
     }
 }
@@ -107,6 +120,13 @@ function placeOrder() {
 }
 
 placeOrderButton.addEventListener('click', placeOrder);
+
+function clearBasket() {
+    basket.clear()
+    createBasketUi()
+}
+
+clearBasketButton.addEventListener('click', clearBasket);
 
 (async function() {
     try {
