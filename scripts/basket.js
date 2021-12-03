@@ -1,12 +1,11 @@
 class Basket {
     constructor() {
-        this.items = [];
-        this.totalValue = 0;
+        this.items = this.loadFromLocalStorage();
     }
 
     clear() {
         this.items = [];
-        this.totalValue = 0;
+        this.saveToLocalStorage();
     }
 
     add(id, name, price) {
@@ -22,6 +21,8 @@ class Basket {
         }
 
         this.addToTotalValue(price);
+
+        this.saveToLocalStorage();
     }
 
     addToTotalValue(newPrice) {
@@ -46,6 +47,8 @@ class Basket {
             const index = this.items.findIndex(item => item.id === id);
             this.items.splice(index, 1);
         }
+
+        this.saveToLocalStorage();
     }
 
     changeCount(id, count) {
@@ -55,6 +58,19 @@ class Basket {
     check(id) {
         const checkProduct = this.items.find(item => item.id === id);
         return checkProduct && checkProduct.count;
+    }
+
+    saveToLocalStorage() {
+        localStorage.setItem('basket-items', JSON.stringify(this.items));
+    }
+
+    loadFromLocalStorage() {
+        const itemsJson = localStorage.getItem('basket-items');
+
+        if (itemsJson === null) {
+            return [];
+        }
+        return JSON.parse(itemsJson);
     }
 }
 
