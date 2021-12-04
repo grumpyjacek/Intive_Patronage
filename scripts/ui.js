@@ -1,14 +1,18 @@
+let data = [];
 const containerList = document.querySelector('.tile-list');
 const basketList = document.querySelector('.basket-list');
 const placeOrderButton = document.querySelector('.btn-place-order');
-const clearBasketButton = document.querySelector('.btn-clear-basket')
+const clearBasketButton = document.querySelector('.btn-clear-basket');
 const basketSummary = document.querySelector('.basket');
 const handleBasketButton = document.querySelector('.view-basket');
-const basketArrow = document.querySelectorAll('.view-basket img')
+const basketArrow = document.querySelectorAll('.view-basket img');
+const sortOption = document.querySelector('#sort');
+const tileList = document.querySelector('.tile-list');
+
 
 function handleViewBasket () {
-    basketSummary.classList.toggle('on')
-    basketArrow.forEach(arrow => arrow.classList.toggle('inactive'))
+    basketSummary.classList.toggle('on');
+    basketArrow.forEach(arrow => arrow.classList.toggle('inactive'));
 }
 
 handleBasketButton.addEventListener('click', handleViewBasket);
@@ -30,14 +34,14 @@ function localizePrice (price) {
 }
 
 // Create pizza tiles list
-function createNewTile({id, title, price, image, ingredients}) {
+function createNewTile({id, title, price, image, ingredients}, i) {
     const ingredientsList = ingredients.join(", ");
     const fixedPrice = `${localizePrice(price)} zł`;
     const newTile = document.createElement('div');
 
     newTile.className = "tile"
     newTile.innerHTML = `
-        <h2 class="title">${id}. ${title}</h2>
+        <h2 class="title">${i + 1}. ${title}</h2>
         <div class="image">
             <img src="${image}" alt="${title}">
         </div>
@@ -49,7 +53,26 @@ function createNewTile({id, title, price, image, ingredients}) {
 }
 
 function createNewList(list) {
-    list.forEach(item => createNewTile(item))
+    list.forEach((item, i) => createNewTile(item, i))
+}
+
+sortOption.addEventListener('change', (e) => sortTiles(e.target.value));
+
+// Pizza sorting
+function sortTiles(sortOption) {
+    let newData;
+
+    if (sortOption === 'a-z') {
+        newData = data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
+    } else if (sortOption === 'z-a') {
+        newData = data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0))
+    } else if (sortOption === 'price-up') {
+        newData = data.sort((a, b) => a.price - b.price)
+    } else if (sortOption === 'price-down') {
+        newData = data.sort((a, b) => b.price - a.price)
+    }
+    tileList.innerText = '';
+    createNewList(newData)
 }
 
 // UI handling
@@ -130,8 +153,9 @@ clearBasketButton.addEventListener('click', clearBasket);
 
 (async function() {
     try {
-        const data = await getData();
+        data = await getData();
 
+        sortTiles('a-z');
         createNewList(data);
         setListenerForBuyButtons();
         createBasketUi();
@@ -140,4 +164,3 @@ clearBasketButton.addEventListener('click', clearBasket);
         console.log(err);
     }
 })();
-

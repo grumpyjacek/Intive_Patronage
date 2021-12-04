@@ -240,7 +240,7 @@ button:disabled {
     }
 
     .basket-summary {
-        min-height: 3rem;
+        height: 6rem;
     }
 
     .total-price {
