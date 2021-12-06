@@ -1,3 +1,5 @@
+'use strict';
+
 let data = [];
 const containerList = document.querySelector('.tile-list');
 const basketList = document.querySelector('.basket-list');
@@ -6,9 +8,9 @@ const clearBasketButton = document.querySelector('.btn-clear-basket');
 const basketSummary = document.querySelector('.basket');
 const handleBasketButton = document.querySelector('.view-basket');
 const basketArrow = document.querySelectorAll('.view-basket img');
+const filterInput = document.querySelector('#search-bar');
 const sortOption = document.querySelector('#sort');
 const tileList = document.querySelector('.tile-list');
-
 
 function handleViewBasket () {
     basketSummary.classList.toggle('on');
@@ -56,10 +58,28 @@ function createNewList(list) {
     list.forEach((item, i) => createNewTile(item, i))
 }
 
-sortOption.addEventListener('change', (e) => sortTiles(e.target.value));
+// Filtering by ingredients
+filterInput.addEventListener('keyup', (e) => filterTiles(e));
+
+function filterTiles(e) {
+    const searchWords = e.target.value.toLowerCase().split(',').map(item => item.trim());
+
+    const filterData = data.filter(item => searchWords.every(word=> {
+        return item.ingredients.join().toLowerCase().includes(word);
+    }));
+
+    if (filterData.length) {
+        tileList.innerText = '';
+        createNewList(filterData);
+    } else tileList.innerHTML = '<p class="filter-info">Nie mamy pizzy z takimi składnikami :(</p>';
+}
 
 // Pizza sorting
+sortOption.addEventListener('change', (e) => sortTiles(e.target.value));
+
 function sortTiles(sortOption) {
+    filterInput.value = '';
+
     let newData;
 
     if (sortOption === 'a-z') {
@@ -72,7 +92,7 @@ function sortTiles(sortOption) {
         newData = data.sort((a, b) => b.price - a.price)
     }
     tileList.innerText = '';
-    createNewList(newData)
+    createNewList(newData);
 }
 
 // UI handling

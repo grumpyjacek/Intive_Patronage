@@ -49,6 +49,11 @@ body {
     padding: 1rem;
 }
 
+.filter-info {
+    font-size: 1.5rem;
+
+}
+
 .tile {
     display: flex;
     flex-direction: column;
