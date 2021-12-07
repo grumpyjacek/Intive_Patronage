@@ -11,16 +11,21 @@
 <body>
 <div class="container">
     <div class="top-bar">
-        <h1 class="header">Pizza u Jacka</h1>
-        <p class="subheader">Najlepsza pizza w mieście!</p>
-        <input class="search-bar" type="text" id="search-bar" placeholder="Szukaj po składnikach">
-        <label for="sort">Sortuj po:</label>
-        <select id="sort">
-            <option value="a-z" selected>A-Z</option>
-            <option value="z-a">Z-A</option>
-            <option value="price-up">cenie - rosnąco</option>
-            <option value="price-down">cenie - malejąco</option>
-        </select>
+        <div class = "top-bar-header">
+            <h1 class="header">Pizza u Jacka</h1>
+            <p class="subheader">Najlepsza pizza w mieście!</p>
+        </div>
+        <div class = "top-bar-search">
+            <select id="sort">
+                <option value="" disabled selected hidden>Sortuj po nazwie (A-Z)</option>
+                <option value="a-z">Sortuj po nazwie (A-Z)</option>
+                <option value="z-a">Sortuj po nazwie (Z-A)</option>
+                <option value="price-down">Sortuj po cenie (malejąco)</option>
+                <option value="price-up">Sortuj po cenie (rosnąco)</option>
+            </select>
+            <input type="text" id="search-bar" placeholder="Szukaj po składnikach...">
+
+        </div>
     </div>
     <div class="main">
         <div class="tile-list"></div>

@@ -143,7 +143,7 @@ function createBasketUi() {
     } else {
         placeOrderButton.setAttribute('disabled', 'true')
         clearBasketButton.setAttribute('disabled', 'true')
-        totalPrice.innerHTML = `Głodny? <br>Zamów naszą pizzę!`
+        totalPrice.innerHTML = `<span>Głodny? <br>Zamów naszą pizzę!</span>`
     }
 }
 

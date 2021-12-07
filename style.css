@@ -22,6 +22,11 @@ body {
 .top-bar {
     display: flex;
     flex-direction: column;
+}
+
+.top-bar-header {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 6rem;
@@ -35,6 +40,21 @@ body {
 
 .subheader {
     font-size: 1.5rem;
+}
+
+.top-bar-search {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 60%;
+    margin-top: 1rem;
+}
+
+#sort,
+#search-bar {
+    margin: .5rem;
+    padding: .5rem;
+    font-size: 1.3rem;
 }
 
 .main {
@@ -51,7 +71,7 @@ body {
 
 .filter-info {
     font-size: 1.5rem;
-
+    color: gray;
 }
 
 .tile {
@@ -211,6 +231,12 @@ button:disabled {
     padding: 1rem 0;
 }
 
+.total-price span {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 100%;
+}
+
 .btn-place-order,
 .btn-clear-basket {
     align-self: normal;
@@ -237,7 +263,7 @@ button:disabled {
 @media (min-width: 768px){
     .basket {
         position: sticky;
-        height: 86vh;
+        height: 75vh;
         width: 40%;
         top: 7vh;
         right: 0;
@@ -249,7 +275,6 @@ button:disabled {
     }
 
     .total-price {
-        font-size: 1.5rem;
         padding-right: 2rem;
     }
 
@@ -266,13 +291,20 @@ button:disabled {
 }
 
 @media (min-width: 1024px){
-    .tile {
-        flex-basis: 31%;
+    .top-bar {
+        flex-direction: row;
     }
 
-    .basket-icon {
-        width: 2rem;
-        height: 2rem;
+    .top-bar-header {
+        flex-grow: 1;
+    }
+
+    .top-bar-search {
+        flex-basis: 50%;
+    }
+
+    .tile {
+        flex-basis: 31%;
     }
 }
 
@@ -287,6 +319,11 @@ button:disabled {
 
     .basket {
         width: 38%;
+    }
+
+    .basket-icon {
+        width: 2.5rem;
+        height: 2.5rem;
     }
 }
 

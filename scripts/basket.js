@@ -1,5 +1,3 @@
-'use strict';
-
 class Basket {
     constructor() {
         this.items = this.loadFromLocalStorage();
