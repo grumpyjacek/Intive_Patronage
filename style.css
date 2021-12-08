@@ -65,7 +65,6 @@ body {
 .tile-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     padding: 1rem;
 }
 
@@ -77,9 +76,11 @@ body {
 .tile {
     display: flex;
     flex-direction: column;
-    flex-basis: 90%;
+    flex-basis: calc(100% - 2rem);
+    max-height: 35rem;
+    min-width: 17rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.40);
-    margin: 1rem 0 0;
+    margin: 1rem 1rem;
     padding: 1rem;
     border-radius: 4px;
 }
@@ -208,6 +209,10 @@ button {
     letter-spacing: .1rem;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 button:disabled {
     color: black;
     background-color: #c0bfbf;
@@ -256,7 +261,7 @@ button:disabled {
 
 @media (min-width: 600px){
     .tile {
-        flex-basis: 44%;
+        flex-basis: calc(50% - 2rem);
     }
 }
 
@@ -304,7 +309,7 @@ button:disabled {
     }
 
     .tile {
-        flex-basis: 31%;
+        flex-basis: calc((100%/3) - 2rem);
     }
 }
 
@@ -326,4 +331,3 @@ button:disabled {
         height: 2.5rem;
     }
 }
-

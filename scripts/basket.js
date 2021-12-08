@@ -67,10 +67,7 @@ class Basket {
     loadFromLocalStorage() {
         const itemsJson = localStorage.getItem('basket-items');
 
-        if (itemsJson === null) {
-            return [];
-        }
-        return JSON.parse(itemsJson);
+        return JSON.parse(itemsJson) || [];
     }
 }
 

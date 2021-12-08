@@ -59,12 +59,11 @@ function createNewList(list) {
 }
 
 // Filtering by ingredients
-filterInput.addEventListener('keyup', (e) => filterTiles(e));
+filterInput.addEventListener('keyup', (e) => filterTiles(e.target.value));
 
-function filterTiles(e) {
-    const searchWords = e.target.value.toLowerCase().split(',').map(item => item.trim());
-
-    const filterData = data.filter(item => searchWords.every(word=> {
+function filterTiles(filterText = '', newData = data) {
+    const searchWords = filterText.toLowerCase().split(',').map(item => item.trim());
+    const filterData = newData.filter(item => searchWords.every(word=> {
         return item.ingredients.join().toLowerCase().includes(word);
     }));
 
@@ -78,21 +77,24 @@ function filterTiles(e) {
 sortOption.addEventListener('change', (e) => sortTiles(e.target.value));
 
 function sortTiles(sortOption) {
-    filterInput.value = '';
-
     let newData;
 
-    if (sortOption === 'a-z') {
-        newData = data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
-    } else if (sortOption === 'z-a') {
-        newData = data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0))
-    } else if (sortOption === 'price-up') {
-        newData = data.sort((a, b) => a.price - b.price)
-    } else if (sortOption === 'price-down') {
-        newData = data.sort((a, b) => b.price - a.price)
+    switch (sortOption) {
+        case 'a-z':
+            newData = data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
+            break;
+        case 'z-a':
+            newData = data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
+            break;
+        case 'price-up':
+            newData = data.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-down':
+            newData = data.sort((a, b) => b.price - a.price);
+            break;
     }
-    tileList.innerText = '';
-    createNewList(newData);
+
+    filterTiles(filterInput.value, newData)
 }
 
 // UI handling
@@ -176,7 +178,6 @@ clearBasketButton.addEventListener('click', clearBasket);
         data = await getData();
 
         sortTiles('a-z');
-        createNewList(data);
         setListenerForBuyButtons();
         createBasketUi();
 
