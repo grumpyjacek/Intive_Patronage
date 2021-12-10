@@ -9,6 +9,7 @@ const basketSummary = document.querySelector('.basket');
 const handleBasketButton = document.querySelector('.view-basket');
 const basketArrow = document.querySelectorAll('.view-basket img');
 const filterInput = document.querySelector('#search-bar');
+const sortInput = document.querySelector('#sort')
 const sortOption = document.querySelector('#sort');
 const tileList = document.querySelector('.tile-list');
 
@@ -36,7 +37,7 @@ function localizePrice (price) {
 }
 
 // Create pizza tiles list
-function createNewTile({id, title, price, image, ingredients}, i) {
+function createTile({id, title, price, image, ingredients}, i) {
     const ingredientsList = ingredients.join(", ");
     const fixedPrice = `${localizePrice(price)} zł`;
     const newTile = document.createElement('div');
@@ -52,61 +53,56 @@ function createNewTile({id, title, price, image, ingredients}, i) {
             <button type="submit" class="btn-buy-product" data-name="${title}" data-price="${price}" data-id="${id}">Zamów</button>
     `
     containerList.appendChild(newTile)
+    newTile.querySelector('.btn-buy-product').addEventListener('click', addProductToBasket);
 }
 
-function createNewList(list) {
-    list.forEach((item, i) => createNewTile(item, i))
+function createList(list) {
+    tileList.innerHTML = '';
+    list.forEach((item, i) => createTile(item, i))
 }
 
 // Filtering by ingredients
-filterInput.addEventListener('keyup', (e) => filterTiles(e.target.value));
-
-function filterTiles(filterText = '', newData = data) {
+function filterTiles(filterText) {
     const searchWords = filterText.toLowerCase().split(',').map(item => item.trim());
-    const filterData = newData.filter(item => searchWords.every(word=> {
-        return item.ingredients.join().toLowerCase().includes(word);
-    }));
-
-    if (filterData.length) {
-        tileList.innerText = '';
-        createNewList(filterData);
-    } else tileList.innerHTML = '<p class="filter-info">Nie mamy pizzy z takimi składnikami :(</p>';
+    const filterData = data.filter(item => searchWords.every(word => item.ingredients.join().toLowerCase().includes(word)));
+    return filterData;
 }
 
+filterInput.addEventListener('keyup', (e) => renderList(e.target.value, sortInput.value));
+
 // Pizza sorting
-sortOption.addEventListener('change', (e) => sortTiles(e.target.value));
-
 function sortTiles(sortOption) {
-    let newData;
-
     switch (sortOption) {
         case 'a-z':
-            newData = data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
+            data = data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
             break;
         case 'z-a':
-            newData = data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
+            data = data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
             break;
         case 'price-up':
-            newData = data.sort((a, b) => a.price - b.price);
+            data = data.sort((a, b) => a.price - b.price);
             break;
         case 'price-down':
-            newData = data.sort((a, b) => b.price - a.price);
+            data = data.sort((a, b) => b.price - a.price);
             break;
     }
+}
 
-    filterTiles(filterInput.value, newData)
+sortOption.addEventListener('change', (e) => renderList(filterInput.value, e.target.value));
+
+// Rendering pizza list
+function renderList(filterOption = '', sortOption = 'a-z') {
+
+    sortTiles(sortOption);
+    let filterData = filterTiles(filterOption);
+
+    if (filterData.length) {
+        createList(filterData);
+    } else tileList.innerHTML = '<p class="filter-info">Nie mamy pizzy z takimi składnikami :(</p>';
 }
 
 // UI handling
 const basket = new Basket();
-
-function setListenerForBuyButtons() {
-    const buyButtons = [...document.querySelectorAll('.btn-buy-product')];
-
-    for (const btn of buyButtons) {
-        btn.addEventListener('click', addProductToBasket);
-    }
-}
 
 function removeProduct(event) {
     const id = event.target.dataset.id;
@@ -176,9 +172,7 @@ clearBasketButton.addEventListener('click', clearBasket);
 (async function() {
     try {
         data = await getData();
-
-        sortTiles('a-z');
-        setListenerForBuyButtons();
+        renderList()
         createBasketUi();
 
     } catch(err) {
