@@ -11,17 +11,37 @@
 <body>
 <div class="container">
     <div class="top-bar">
-        <h1 class="header">Pizza u Jacka</h1>
-        <p class="subheader">Najlepsza pizza w mieście!</p>
-        <object data="cook.svg" width="90" height="90"> </object>
+        <div class = "top-bar-header">
+            <h1 class="header">Pizza u Jacka</h1>
+            <p class="subheader">Najlepsza pizza w mieście!</p>
+        </div>
+        <div class = "top-bar-search">
+            <select id="sort">
+                <option value="" disabled selected hidden>Sortuj po nazwie (A-Z)</option>
+                <option value="a-z">Sortuj po nazwie (A-Z)</option>
+                <option value="z-a">Sortuj po nazwie (Z-A)</option>
+                <option value="price-up">Sortuj po cenie (rosnąco)</option>
+                <option value="price-down">Sortuj po cenie (malejąco)</option>
+            </select>
+            <input type="text" id="search-bar" placeholder="Szukaj po składnikach...">
+
+        </div>
     </div>
     <div class="main">
         <div class="tile-list"></div>
         <div class="basket">
+            <div class="basket-summary">
+                <div class="basket-icon"><img src="assets/basket.svg"></div>
+                <p class="total-price"></p>
+                <button class="view-basket">
+                    <img src="assets/show_more.svg">
+                    <img class = "inactive" src="assets/show_less.svg">
+                </button>
+            </div>
             <h3>Twoje zamówienie:</h3>
             <ul class="basket-list"></ul>
-            <p class="total-price"></p>
             <button type="submit" class="btn-place-order">Złóż zamówienie</button>
+            <button type="submit" class="btn-clear-basket">Wyczyść koszyk</button>
         </div>
     </div>
 </div>
