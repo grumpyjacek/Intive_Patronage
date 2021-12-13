@@ -1,5 +1,6 @@
 'use strict';
 
+let initialData = [];
 let data = [];
 const containerList = document.querySelector('.tile-list');
 const basketList = document.querySelector('.basket-list');
@@ -9,8 +10,7 @@ const basketSummary = document.querySelector('.basket');
 const handleBasketButton = document.querySelector('.view-basket');
 const basketArrow = document.querySelectorAll('.view-basket img');
 const filterInput = document.querySelector('#search-bar');
-const sortInput = document.querySelector('#sort')
-const sortOption = document.querySelector('#sort');
+const sortInput = document.querySelector('#sort');
 const tileList = document.querySelector('.tile-list');
 
 function handleViewBasket () {
@@ -62,44 +62,34 @@ function createList(list) {
 }
 
 // Filtering by ingredients
-function filterTiles(filterText) {
+function filterTiles(filterText = '') {
     const searchWords = filterText.toLowerCase().split(',').map(item => item.trim());
-    const filterData = data.filter(item => searchWords.every(word => item.ingredients.join().toLowerCase().includes(word)));
-    return filterData;
+    data = initialData.filter(item => searchWords.every(word => item.ingredients.join().toLowerCase().includes(word)));
+    createList(data);
 }
 
-filterInput.addEventListener('keyup', (e) => renderList(e.target.value, sortInput.value));
+filterInput.addEventListener('keyup', (e) => filterTiles(e.target.value));
 
 // Pizza sorting
-function sortTiles(sortOption) {
+function sortTiles(sortOption = 'a-z') {
     switch (sortOption) {
         case 'a-z':
-            data = data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
+            data.sort((a, b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0));
             break;
         case 'z-a':
-            data = data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
+            data.sort((a, b) => (a.title < b.title) ? 1 : ((b.title < a.title) ? -1 : 0));
             break;
         case 'price-up':
-            data = data.sort((a, b) => a.price - b.price);
+            data.sort((a, b) => a.price - b.price);
             break;
         case 'price-down':
-            data = data.sort((a, b) => b.price - a.price);
+            data.sort((a, b) => b.price - a.price);
             break;
     }
+    createList(data);
 }
 
-sortOption.addEventListener('change', (e) => renderList(filterInput.value, e.target.value));
-
-// Rendering pizza list
-function renderList(filterOption = '', sortOption = 'a-z') {
-
-    sortTiles(sortOption);
-    let filterData = filterTiles(filterOption);
-
-    if (filterData.length) {
-        createList(filterData);
-    } else tileList.innerHTML = '<p class="filter-info">Nie mamy pizzy z takimi składnikami :(</p>';
-}
+sortInput.addEventListener('change', (e) => sortTiles(e.target.value));
 
 // UI handling
 const basket = new Basket();
@@ -171,10 +161,11 @@ clearBasketButton.addEventListener('click', clearBasket);
 
 (async function() {
     try {
-        data = await getData();
-        renderList()
+        initialData = await getData();
+        filterTiles();
+        sortTiles();
+        createList(data);
         createBasketUi();
-
     } catch(err) {
         console.log(err);
     }
